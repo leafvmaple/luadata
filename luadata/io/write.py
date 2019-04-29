@@ -1,4 +1,4 @@
-import os, codecs
+import os, codecs, numbers
 
 def format_space(depth, fl):
     for i in range(0, depth):
@@ -40,9 +40,9 @@ def write_item(depth, item, fl):
     elif isinstance(item, list):
         write_list(depth, item, fl)
 
-def serialize(data, dstpath, encoding='utf-8')
+def serialize(data, dstpath, encoding='utf-8'):
     fl = codecs.open(dstpath, 'w', encoding)
     fl.write('data = ')
     write_item(0, data, fl)
-    fl.close())
+    fl.close()
 

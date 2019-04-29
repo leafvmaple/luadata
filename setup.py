@@ -8,12 +8,12 @@ with open("README.md", "r") as fh:
 
 setup(
     name = "luadata",
-    version = "0.01",
+    version = "0.0.3",
     keywords = ("pip", "lua", "data"),
     description = "Serialized Python list & dictionary to Lua table.",
     long_description = long_description,
     long_description_content_type="text/markdown",
-    license = "MIT License",
+    license = "BSD License",
 
     url = "https://github.com/leafvmaple/luadata",
     author = "Leafvmaple",
@@ -24,7 +24,7 @@ setup(
     platforms = "any",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
     #install_requires = ["codecs"]
