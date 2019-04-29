@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from setuptools import setup, find_packages            #这个包没有的可以pip一下
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -10,7 +9,7 @@ setup(
     name = "luadata",
     version = "0.0.3",
     keywords = ("pip", "lua", "data"),
-    description = "Serialized Python list & dictionary to Lua table.",
+    description = "Serialize Python list & dictionary to Lua table.",
     long_description = long_description,
     long_description_content_type="text/markdown",
     license = "BSD License",

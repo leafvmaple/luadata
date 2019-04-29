@@ -1,6 +1,6 @@
-# Luadata
+# luadata
 
-This is a Python package that serialized `Python` list &amp; dictionary to `Lua` table.
+This is a Python package that can serialize `Python` list &amp; dictionary to `Lua` table.
 
 ## Install
 
@@ -11,9 +11,9 @@ python -m pip install --upgrade luadata
 
 ## Use
 
-You can use `serialized` to output your Python data into a Lua file on dstpath.
+You can use `serialize` to output your Python data into a Lua file on dstpath.
 ```
-luadata.serialized(data, dstpath, encoding='utf-8')
+luadata.serialize(data, dstpath, encoding='utf-8')
 ```
 
 ## License
