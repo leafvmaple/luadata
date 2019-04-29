@@ -18,4 +18,4 @@ luadata.serialized(data, dstpath, encoding='utf-8')
 
 ## License
 
-[BSD] https://github.com/leafvmaple/luadata/blob/master/LICENSE
+[BSD](https://github.com/leafvmaple/luadata/blob/master/LICENSE)
