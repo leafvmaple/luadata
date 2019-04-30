@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 setup(
     name = "luadata",
     version = "0.0.4",
-    keywords = ["pip", "lua", "data"],
+    keywords = ["lua", "data", "luadata", "table"],
     description = "Serialize Python list & dictionary to Lua table.",
     long_description = long_description,
     long_description_content_type="text/markdown",
@@ -25,6 +25,7 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
+        "Development Status :: 4",
     ],
     #install_requires = ["codecs"]
 )
