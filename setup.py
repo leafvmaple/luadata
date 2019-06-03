@@ -21,11 +21,11 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     platforms="any",
-    classifiers=[
+    classifiers={
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Development Status :: 4",
-    ],
+        "Development Status :: 4 - Beta",
+    },
     # install_requires = ["codecs"]
 )
