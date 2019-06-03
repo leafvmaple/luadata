@@ -1,3 +1,5 @@
 /luadata.egg-info
 /build
 /dist
+/venv
+/.idea
