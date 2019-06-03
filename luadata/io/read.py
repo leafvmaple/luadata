@@ -147,10 +147,13 @@ def read_item(info):
         return item
 
 
-def unserialize(src, encoding='utf-8'):
-    if isinstance(src, str):
-        fl = codecs.open(src, 'r', encoding)
-        src = fl.read()
-    data = read_item(StreamData("{%s}" % src, 0))
+def unserialize_buffer(src_data):
+    return read_item(StreamData("{%s}" % src_data, 0))
+
+
+def unserialize(path, encoding='utf-8'):
+    fl = codecs.open(path, 'r', encoding)
+    src_data = fl.read()
+    data = unserialize_buffer(src_data)
     fl.close()
     return data
