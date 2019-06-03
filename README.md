@@ -11,11 +11,11 @@ python -m pip install --upgrade luadata
 
 ## Use
 
-You can use `serialize` to output your Python data into a Lua file on dstpath.
+You can use `serialize` to output your Python data into a Lua file on path.
 ```
 luadata.serialize(data, path, encoding='utf-8')
 ```
-You can use `unserialize` to output your Python data into a Lua file on dstpath.
+Or use `unserialize` to input your Python data from a Lua file on path.
 ```
 data = luadata.unserialize(path, encoding='utf-8')
 ```
