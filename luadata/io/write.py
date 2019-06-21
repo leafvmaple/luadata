@@ -47,6 +47,8 @@ def write_item(depth, item, fl):
         fl.write('%f' % item)
     elif isinstance(item, int):
         fl.write('%d' % item)
+    elif isinstance(item, bool):
+        fl.write('true' if item else 'false')
     elif isinstance(item, str):
         fl.write('\"%s\"' % item)
     elif isinstance(item, dict):

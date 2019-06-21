@@ -12,17 +12,16 @@ class StreamData:
 
     @staticmethod
     def format_marks(string):
-        str_len = len(string)
-        if str_len > 0 and string[0] == '\"' and string[str_len - 1] == '\"':
-            return string[1:str_len - 1]
-        elif str_len > 0 and string[0] == '\'' and string[str_len - 1] == '\'':
-            return string[1:str_len - 1]
+        if string[0] == '\"' and string[-1] == '\"':
+            return string[1:-1]
+        elif string[0] == '\'' and string[-1] == '\'':
+            return string[1:-1]
         return string
 
     @staticmethod
     def format_key(key):
         if key[0] == '[':
-            key = key[1:len(key) - 1]
+            key = key[1:-1]
             if key[0] == '\"' or key[0] == '\'':
                 return StreamData.format_marks(key)
             elif key.isdigit():
