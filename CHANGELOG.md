@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [0.0.7] 2019-06-21
+
+* `Fixed the bug` when the Lua value is `boolean`
+
 ## [0.0.6] 2019-06-18
 
 * `Fixed the bug` when the Lua table value is `table`
