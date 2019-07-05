@@ -1,4 +1,5 @@
 import codecs
+import numbers
 
 
 def format_space(depth, fl):
@@ -44,9 +45,11 @@ def write_dict(depth, dic, fl):
 
 def write_item(depth, item, fl):
     if isinstance(item, float):
-        fl.write('%f' % item)
+        fl.write(item)
     elif isinstance(item, int):
-        fl.write('%d' % item)
+        fl.write(item)
+    elif isinstance(item, numbers.Integral):
+        fl.write(item)
     elif isinstance(item, bool):
         fl.write('true' if item else 'false')
     elif isinstance(item, str):
