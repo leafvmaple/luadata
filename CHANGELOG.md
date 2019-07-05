@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [0.0.8] 2019-07-05
+
+* `Fixed the bug` that the `numbers.Integral` cannot be output
+
 ## [0.0.7] 2019-06-21
 
 * `Fixed the bug` when the Lua value is `boolean`
