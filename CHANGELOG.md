@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [0.1.1] 2020-02-29
+
+* `Support` the Lua keyword `return` when unserialize data.
+
 ## [0.0.8] 2019-07-05
 
 * `Fixed the bug` that the `numbers.Integral` cannot be output

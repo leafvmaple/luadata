@@ -143,12 +143,14 @@ class StreamData:
 
 
 def unserialize_buffer(src_data):
-    return StreamData("{%s}" % src_data, 0).read_item()
+    src_data = src_data[6:] if src_data.startswith("return") else "{%s}" % src_data
+    return StreamData(src_data, 0).read_item()
 
 
 def unserialize(path, encoding='utf-8'):
     fl = codecs.open(path, 'r', encoding)
     src_data = fl.read()
-    data = unserialize_buffer(src_data)
+    data = unserialize_buffer(src_data.strip())
     fl.close()
     return data
+

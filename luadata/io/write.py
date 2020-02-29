@@ -60,8 +60,8 @@ def write_item(depth, item, fl):
         write_list(depth, item, fl)
 
 
-def serialize(data, path, encoding='utf-8'):
+def serialize(data, path, encoding='utf-8', prefix='return '):
     fl = codecs.open(path, 'w', encoding)
-    fl.write('data = ')
+    fl.write(prefix)
     write_item(0, data, fl)
     fl.close()
