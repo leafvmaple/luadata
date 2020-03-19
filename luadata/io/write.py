@@ -1,12 +1,14 @@
 import codecs
 import numbers
 
+
 def concat(*args):
     sz = ''
     for arg in args:
         if type(arg) == str:
             sz += arg
     return sz
+
 
 def check_list(dic):
     flag = {}
@@ -53,11 +55,12 @@ class StringStream:
 
     def parse_dict(self, dic, depth):
         sz = ''
-        islist = not check_list(dic)
+        is_list = not check_list(dic)
         for key, val in dic.items():
             if val is None:
                 continue
-            sz = concat(sz, self.format_space(depth), self.format_key(key) if islist else '', self.parse_item(val, depth), ',', self.format_enter())
+            sz = concat(sz, self.format_space(depth), self.format_key(key) if is_list else '',
+                        self.parse_item(val, depth), ',', self.format_enter())
         return sz
 
     def parse_item(self, item, depth):
@@ -78,11 +81,13 @@ class StringStream:
         elif isinstance(item, const):
             return str(item)
 
-def serialize(data, form = False):
+
+def serialize(data, form=False):
     stream = StringStream(form)
     return stream.parse_item(data, 0)
 
-def write(data, path, encoding='utf-8', form = False, prefix='return '):
+
+def write(data, path, encoding='utf-8', form=False, prefix='return '):
     fl = codecs.open(path, 'w', encoding)
     sz = serialize(data, form).replace('\\t', '\t').replace('\\n', '\n')
     fl.write(prefix + sz)
