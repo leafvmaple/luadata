@@ -11,17 +11,20 @@ def concat(*args):
 
 
 def check_list(dic):
-    flag = {}
-    count = 0
+    keys = []
     for key, val in dic.items():
         if val is None:
             continue
-        if not isinstance(key, (int, float)):
+        if not isinstance(key, int):
             return False
-        flag[key] = True
-        count += 1
-    return len(flag) == count
+        keys.append(key)
+    
+    #keys.sort()
+    for i, v in enumerate(keys):
+        if i + 1 != v:
+            return False
 
+    return True
 
 class const:
     def __init__(self, data):
