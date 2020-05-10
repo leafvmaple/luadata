@@ -75,14 +75,14 @@ class StringStream:
         return sz
 
     def parse_item(self, item, depth):
-        if isinstance(item, float):
+        if isinstance(item, bool):
+            return 'true' if item else 'false'
+        elif isinstance(item, float):
             return str(item)
         elif isinstance(item, int):
             return str(item)
         elif isinstance(item, numbers.Integral):
             return str(item)
-        elif isinstance(item, bool):
-            return 'true' if item else 'false'
         elif isinstance(item, str):
             return '\"%s\"' % item
         elif isinstance(item, dict):
