@@ -1,29 +1,37 @@
 # Luadata Change Log
 
+## [0.1.8] 2020-05-10
+
+* `[Fixed bug]` The output is incorrect when the Python input data has Boolean type.
+
+## [0.1.7] 2020-03-29
+
+* `[Fixed bug]` The output is incorrect when the Lua input data has special Unicode char.
+
 ## [0.1.1] 2020-02-29
 
-* `Support` the Lua keyword `return` when unserialize data.
+* `[Support]` Add the Lua keyword `return` when unserialize data.
 
 ## [0.0.8] 2019-07-05
 
-* `Fixed the bug` that the `numbers.Integral` cannot be output
+* `[Fixed bug]` The `numbers.Integral` cannot be output
 
 ## [0.0.7] 2019-06-21
 
-* `Fixed the bug` when the Lua value is `boolean`
+* `[Fixed bug]` The output is incorrect when the Lua value is `boolean`
 
 ## [0.0.6] 2019-06-18
 
-* `Fixed the bug` when the Lua table value is `table`
+* `[Fixed bug]` The output is incorrect when the Lua table value is `table`
 
 ## [0.0.5] 2019-06-03
 
-* Add `unserialize` module
+* `[Support]` Add `unserialize` module
 
 ## [0.0.4] 2019-04-30
 
-* `Fixed the bug` when the Python dictionary key is `None`
+* `[Fixed bug]` The output is incorrect when the Python dictionary key is `None`
 
 ## [0.0.3] 2019-04-29
 
-* Add `serialize` module.
+* `[Support]` Add `serialize` module.
