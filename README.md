@@ -1,5 +1,8 @@
 # luadata
 
+[![Build Status](https://travis-ci.org/leafvmaple/luadata.svg?branch=master)](https://travis-ci.org/leafvmaple/luadata)
+![PyPI](https://img.shields.io/pypi/v/luadata)
+
 This is a Python package that can serialize `Python` list &amp; dictionary to `Lua` table, or unserialize `Lua` table to `Python` list & dictionary.
 
 ## Install
