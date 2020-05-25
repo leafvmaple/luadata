@@ -11,6 +11,14 @@ class StreamData:
         return ch != '\r' and ch != '\n' and ch != '\t' and ch != ' '
 
     @staticmethod
+    def isfloat(string):
+        try:
+            float(string)
+        except ValueError:
+            return False
+        return True
+
+    @staticmethod
     def format_marks(string):
         if string[0] == '\"' and string[-1] == '\"':
             return string[1:-1]
@@ -132,14 +140,16 @@ class StreamData:
             return self.read_string()
 
         item = self.read_chars()
-        if item.isdigit():
+        if item.isdigit() or item.startswith("-") and item[1:].isdigit():
             return int(item)
-        elif item == "true":
+        elif StreamData.isfloat(item):
+            return float(item)
+        if item == "true":
             return True
         elif item == 'false':
             return False
-        else:
-            return item
+
+        raise item
 
 
 def unserialize(src_data):
