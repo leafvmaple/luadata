@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [0.2.1] 2020-05-25
+
+* `[Fixed bug]` Fixed clerical errors.
+
 ## [0.2.0] 2020-05-25
 
 * `[Fixed bug]` The output is incorrect when the Python input data has float type.

@@ -149,7 +149,7 @@ class StreamData:
         elif item == 'false':
             return False
 
-        raise item
+        return item
 
 
 def unserialize(src_data):
