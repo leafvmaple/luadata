@@ -1,7 +1,7 @@
 import re
 
 
-def __serialize(var, level, indent):
+def __serialize(var, encoding, indent, level):
     parts = []
     var_type = type(var)
     if var is None:
@@ -11,7 +11,11 @@ def __serialize(var, level, indent):
     elif isinstance(var, str):
         parts.append('"')
         parts.append(
-            var.replace("\\", "\\\\").replace("\n", "\\n").replace("\t", "\\t")
+            var.encode(encoding)
+            .replace(b"\\", b"\\\\")
+            .replace(b'"', b'\\"')
+            .replace(b"\n", b"\\\n")
+            .decode(encoding)
         )
         parts.append('"')
     elif isinstance(var, bool):
@@ -70,11 +74,11 @@ def __serialize(var, level, indent):
                 parts.append(s_tab_equ)
             else:  # [10010] = val # [".start with or contains special char"] = val
                 parts.append("[")
-                parts.append(__serialize(key, level + 1, indent))
+                parts.append(__serialize(key, encoding, indent, level + 1))
                 parts.append("]")
                 parts.append(s_tab_equ)
             # insert value
-            parts.append(__serialize(val, level + 1, indent))
+            parts.append(__serialize(val, encoding, indent, level + 1))
             parts.append(",")
             if indent is not None:
                 parts.append("\n")
@@ -94,5 +98,5 @@ def __serialize(var, level, indent):
     return "".join(parts)
 
 
-def serialize(var, indent=None, level=0):
-    return __serialize(var, level, indent)
+def serialize(var, encoding="utf-8", indent=None, level=0):
+    return __serialize(var, encoding, indent, level)
