@@ -99,4 +99,15 @@ def __serialize(var, encoding, indent, level):
 
 
 def serialize(var, encoding="utf-8", indent=None, level=0):
+    """Serialize variable to lua formatted data string.
+
+    Args:
+        var (number, int, float, str, dict, list): variable you want to serialize
+        encoding (str, optional): target encoding, will affect string components escaping logic. Defaults to "utf-8".
+        indent (str, optional): indent string, such as '\\t'. Defaults to None, means no indention.
+        level (int, optional): current indent level. Defaults to 0.
+
+    Returns:
+        string: serialized lua formatted data string
+    """
     return __serialize(var, encoding, indent, level)
