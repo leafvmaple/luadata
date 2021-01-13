@@ -268,20 +268,40 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 errmsg = 'unexpected character, "=" expected.'
                 break
         elif state == "KEY_SIMPLE":
-            if byte_current == b" ":
-                key = sbins[pos1:pos].decode(encoding)
-                state = "KEY_SIMPLE_END"
-            elif byte_current == b"=":
-                key = sbins[pos1:pos].decode(encoding)
-                state = "VALUE"
-            elif not (
+            if not (
                 (byte_current >= b"A" and byte_current <= b"Z")
                 or (byte_current >= b"a" and byte_current <= b"z")
                 or (byte_current >= b"0" and byte_current <= b"9")
                 or byte_current == b"_"
             ):
-                errmsg = "invalied table simple key char."
-                break
+                key = sbins[pos1:pos].decode(encoding)
+                state = "KEY_SIMPLE_END"
+                pos = pos - 1
+        elif state == "KEY_SIMPLE_END":
+            if (
+                byte_current == b" "
+                or byte_current == b"\r"
+                or byte_current == b"\n"
+                or byte_current == "\t"
+            ):
+                pass
+            elif byte_current == b"=":
+                state = "VALUE"
+            elif byte_current == b"," or byte_current == b"}":
+                if key == "true":
+                    node_entries_append(node, node["lualen"] + 1, True)
+                    state = "VALUE_END"
+                    key = None
+                    pos = pos - 1
+                elif key == "false":
+                    node_entries_append(node, node["lualen"] + 1, False)
+                    state = "VALUE_END"
+                    key = None
+                    pos = pos - 1
+                else:
+                    key = None
+                    errmsg = "invalied table simple key character."
+                    break
         pos += 1
         if verbose:
             print("          ", pos, "    ", state, key, node)
