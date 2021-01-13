@@ -149,6 +149,16 @@ class TestUnserializeMethods(unittest.TestCase):
             tuple([{1: 1, 2: 2, "3": {3: "3"}}]),
         )
 
+    def test_comment(self):
+        with self.assertRaises(Exception):
+            self.assertEqual(unserialize("{ -- comment 1}"), tuple([[1]]))
+        self.assertEqual(unserialize("{ -- comment\n1}"), tuple([[1]]))
+
+        with self.assertRaises(Exception):
+            self.assertEqual(unserialize("{ --[[comment\n1}"), tuple([[1]]))
+        self.assertEqual(unserialize("{ --[[comment]]1}"), tuple([[1]]))
+        self.assertEqual(unserialize("{ --[[comment\n ]]\n1}"), tuple([[1]]))
+
 
 if __name__ == "__main__":
     unittest.main()
