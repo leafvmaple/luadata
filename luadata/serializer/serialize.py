@@ -6,6 +6,11 @@ def __serialize(var, encoding, indent, level):
     var_type = type(var)
     if var is None:
         parts.append("nil")
+    elif isinstance(var, bool):
+        if var:
+            parts.append("true")
+        else:
+            parts.append("false")
     elif isinstance(var, (int, float)):
         parts.append(str(var))
     elif isinstance(var, str):
@@ -18,11 +23,6 @@ def __serialize(var, encoding, indent, level):
             .decode(encoding)
         )
         parts.append('"')
-    elif isinstance(var, bool):
-        if var:
-            parts.append("true")
-        else:
-            parts.append("false")
     elif isinstance(var, (list, dict)):
         # calc lua table entries
         entries = []
