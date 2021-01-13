@@ -7,17 +7,15 @@ with open("README.md", "r") as fh:
 
 setup(
     name="luadata",
-    version="0.2.1",
+    version="1.0.0",
     keywords=["lua", "data", "luadata", "table"],
     description="Serialize and unserialize Python list & dictionary between Lua table.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="BSD License",
-
     url="https://github.com/leafvmaple/luadata",
     author="Zohar Lee",
     author_email="leafvmaple@gmail.com",
-
     packages=find_packages(),
     include_package_data=True,
     platforms="any",

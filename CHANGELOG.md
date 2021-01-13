@@ -1,45 +1,49 @@
 # Luadata Change Log
 
+## [1.0.0] 2021-1-13
+
+- `[Refactor]` New logic for serializer.
+
 ## [0.2.1] 2020-05-25
 
-* `[Fixed bug]` Fixed clerical errors.
+- `[Fixed bug]` Fixed clerical errors.
 
 ## [0.2.0] 2020-05-25
 
-* `[Fixed bug]` The output is incorrect when the Python input data has float type.
+- `[Fixed bug]` The output is incorrect when the Python input data has float type.
 
 ## [0.1.8] 2020-05-10
 
-* `[Fixed bug]` The output is incorrect when the Python input data has Boolean type.
+- `[Fixed bug]` The output is incorrect when the Python input data has Boolean type.
 
 ## [0.1.7] 2020-03-29
 
-* `[Fixed bug]` The output is incorrect when the Lua input data has special Unicode char.
+- `[Fixed bug]` The output is incorrect when the Lua input data has special Unicode char.
 
 ## [0.1.1] 2020-02-29
 
-* `[Support]` Add the Lua keyword `return` when unserialize data.
+- `[Support]` Add the Lua keyword `return` when unserialize data.
 
 ## [0.0.8] 2019-07-05
 
-* `[Fixed bug]` The `numbers.Integral` cannot be output
+- `[Fixed bug]` The `numbers.Integral` cannot be output
 
 ## [0.0.7] 2019-06-21
 
-* `[Fixed bug]` The output is incorrect when the Lua value is `boolean`
+- `[Fixed bug]` The output is incorrect when the Lua value is `boolean`
 
 ## [0.0.6] 2019-06-18
 
-* `[Fixed bug]` The output is incorrect when the Lua table value is `table`
+- `[Fixed bug]` The output is incorrect when the Lua table value is `table`
 
 ## [0.0.5] 2019-06-03
 
-* `[Support]` Add `unserialize` module
+- `[Support]` Add `unserialize` module
 
 ## [0.0.4] 2019-04-30
 
-* `[Fixed bug]` The output is incorrect when the Python dictionary key is `None`
+- `[Fixed bug]` The output is incorrect when the Python dictionary key is `None`
 
 ## [0.0.3] 2019-04-29
 
-* `[Support]` Add `serialize` module.
+- `[Support]` Add `serialize` module.
