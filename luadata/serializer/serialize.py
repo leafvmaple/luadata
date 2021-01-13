@@ -28,7 +28,7 @@ def __serialize(var, encoding, indent, level):
         entries = []
         if isinstance(var, list):
             for i in range(len(var)):
-                entries.append([i, var[i]])
+                entries.append([i + 1, var[i]])
         elif isinstance(var, dict):
             for k in var:
                 entries.append([k, var[k]])
@@ -54,10 +54,12 @@ def __serialize(var, encoding, indent, level):
             # judge if this is a pure list table
             if nohash and (
                 not isinstance(key, int)
-                or (lastkey + 1 != key)  # key is not continuously
                 or (
                     lastval is None and key != 1
                 )  # first loop and index is not 1 : hash table
+                or (
+                    lastkey is not None and lastkey + 1 != key
+                )  # key is not continuously
             ):
                 nohash = False
             # process to insert to table
