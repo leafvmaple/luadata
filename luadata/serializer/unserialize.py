@@ -1,18 +1,32 @@
 import math
 
 
-def unserialize(s, encoding="utf-8", verbose=False):
-    sbins = s.encode(encoding)
+def unserialize(raw, encoding="utf-8", verbose=False):
+    """Unserialize stringified lua data to python data
+
+    Args:
+        raw (str): raw lua data string
+        encoding (str, optional): string encoding. Defaults to "utf-8".
+        verbose (bool, optional): show more verbose debug information. Defaults to False.
+
+    Raises:
+        Exception: unserialize errors
+
+    Returns:
+        tuple([*]): unserialized data
+    """
+    sbins = raw.encode(encoding)
     root = {"entries": [], "lualen": 0, "is_root": True}
     node = root
     stack = []
-    state = "START"
+    state = "SEEK_CHILD"
     pos = 0
     slen = len(sbins)
     byte_quoting_char = None
     key = None
     escaping = False
     comment = None
+    component_name = None
     errmsg = None
 
     def sorter(kv):
@@ -62,7 +76,7 @@ def unserialize(s, encoding="utf-8", verbose=False):
         elif comment == "INLINE":
             if byte_current == b"\n":
                 comment = None
-        elif state == "START":
+        elif state == "SEEK_CHILD":
             if byte_current is None:
                 break
             if byte_current == b"-" and sbins[pos : pos + 4] == b"--[[":
@@ -114,16 +128,19 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 comment = "INLINE"
                 pos = pos + 1
             elif byte_current == b'"' or byte_current == b"'":
-                state = "VALUE_TEXT"
+                state = "TEXT"
+                component_name = "VALUE"
                 pos1 = pos + 1
                 byte_quoting_char = byte_current
             elif byte_current == b"-" or (
                 byte_current >= b"0" and byte_current <= b"9"
             ):
-                state = "VALUE_INT"
+                state = "INT"
+                component_name = "VALUE"
                 pos1 = pos
             elif byte_current == b".":
-                state = "VALUE_FLOAT"
+                state = "FLOAT"
+                component_name = "VALUE"
                 pos1 = pos
             elif byte_current == b"t" and sbins[pos : pos + 4] == b"true":
                 node_entries_append(node, key, True)
@@ -137,9 +154,9 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 pos = pos + 4
             elif byte_current == b"{":
                 stack.append({"node": node, "state": state, "key": key})
-                state = "START"
+                state = "SEEK_CHILD"
                 node = {"entries": [], "lualen": 0, "is_root": False}
-        elif state == "VALUE_TEXT":
+        elif state == "TEXT":
             if byte_current is None:
                 errmsg = "unexpected string ending: missing close quote."
                 break
@@ -148,43 +165,53 @@ def unserialize(s, encoding="utf-8", verbose=False):
             elif byte_current == b"\\":
                 escaping = True
             elif byte_current == byte_quoting_char:
-                node_entries_append(
-                    node,
-                    key,
+                data = (
                     sbins[pos1:pos]
                     .replace(b"\\\n", b"\n")
                     .replace(b'\\"', b'"')
                     .replace(b"\\\\", b"\\")
-                    .decode(encoding),
+                    .decode(encoding)
                 )
-                state = "VALUE_END"
-                key = None
-        elif state == "VALUE_INT":
+                if component_name == "KEY":
+                    key = data
+                    state = "KEY_EXPRESSION_FINISH"
+                elif component_name == "VALUE":
+                    node_entries_append(node, key, data)
+                    state = "VALUE_END"
+                    key = None
+                data = None
+        elif state == "INT":
             if byte_current == b".":
-                state = "VALUE_FLOAT"
+                state = "FLOAT"
             elif byte_current is None or byte_current < b"0" or byte_current > b"9":
-                node_entries_append(
-                    node,
-                    key,
-                    int(sbins[pos1:pos].decode(encoding)),
-                )
-                state = "VALUE_END"
-                key = None
-                pos = pos - 1
-        elif state == "VALUE_FLOAT":
+                data = int(sbins[pos1:pos].decode(encoding))
+                if component_name == "KEY":
+                    key = data
+                    state = "KEY_EXPRESSION_FINISH"
+                    pos = pos - 1
+                elif component_name == "VALUE":
+                    node_entries_append(node, key, data)
+                    state = "VALUE_END"
+                    key = None
+                    pos = pos - 1
+                data = None
+        elif state == "FLOAT":
             if byte_current is None or byte_current < b"0" or byte_current > b"9":
                 if pos == pos1 + 1 and sbins[pos1:pos] == b".":
                     errmsg = "unexpected dot."
                     break
                 else:
-                    node_entries_append(
-                        node,
-                        key,
-                        float(sbins[pos1:pos].decode(encoding)),
-                    )
-                    state = "VALUE_END"
-                    key = None
-                    pos = pos - 1
+                    data = float(sbins[pos1:pos].decode(encoding))
+                    if component_name == "KEY":
+                        key = data
+                        state = "KEY_EXPRESSION_FINISH"
+                        pos = pos - 1
+                    elif component_name == "VALUE":
+                        node_entries_append(node, key, data)
+                        state = "VALUE_END"
+                        key = None
+                        pos = pos - 1
+                    data = None
         elif state == "VALUE_END":
             if byte_current is None:
                 pass
@@ -195,9 +222,9 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 comment = "INLINE"
                 pos = pos + 1
             elif byte_current == b",":
-                state = "START"
+                state = "SEEK_CHILD"
             elif byte_current == b"}":
-                state = "START"
+                state = "SEEK_CHILD"
                 pos = pos - 1
             elif not byte_current_is_space:
                 errmsg = "unexpected character."
@@ -213,16 +240,19 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 comment = "INLINE"
                 pos = pos + 1
             elif byte_current == b'"' or byte_current == b"'":
-                state = "KEY_EXPRESSION_TEXT"
+                state = "TEXT"
+                component_name = "KEY"
                 pos1 = pos + 1
                 byte_quoting_char = byte_current
             elif byte_current == b"-" or (
                 byte_current >= b"0" and byte_current <= b"9"
             ):
-                state = "KEY_EXPRESSION_INT"
+                state = "INT"
+                component_name = "KEY"
                 pos1 = pos
             elif byte_current == b".":
-                state = "KEY_EXPRESSION_FLOAT"
+                state = "FLOAT"
+                component_name = "KEY"
                 pos1 = pos
             elif byte_current == b"t" and sbins[pos : pos + 4] == b"true":
                 errmsg = "python do not support bool as dict key."
@@ -239,42 +269,9 @@ def unserialize(s, encoding="utf-8", verbose=False):
             elif byte_current == b"{":
                 errmsg = "python do not support lua table variable as dict key."
                 break
-                state = "START"
+                state = "SEEK_CHILD"
                 stack.push({"node": node, "state": state, "key": key})
                 node = {"entries": [], "lualen": 0}
-        elif state == "KEY_EXPRESSION_TEXT":
-            if byte_current is None:
-                errmsg = "unexpected key expression string ending: missing close quote."
-                break
-            if escaping:
-                escaping = False
-            elif byte_current == b"\\":
-                escaping = True
-            elif byte_current == byte_quoting_char:
-                key = (
-                    sbins[pos1:pos]
-                    .replace(b"\\\n", b"\n")
-                    .replace(b'\\"', b'"')
-                    .replace(b"\\\\", b"\\")
-                    .decode(encoding)
-                )
-                state = "KEY_EXPRESSION_FINISH"
-        elif state == "KEY_EXPRESSION_INT":
-            if byte_current == b".":
-                state = "KEY_EXPRESSION_FLOAT"
-            elif byte_current is None or byte_current < b"0" or byte_current > b"9":
-                key = int(sbins[pos1:pos].decode(encoding))
-                state = "KEY_EXPRESSION_FINISH"
-                pos = pos - 1
-        elif state == "KEY_EXPRESSION_FLOAT":
-            if byte_current is None or byte_current < b"0" or byte_current > b"9":
-                if pos == pos1 + 1 and sbins[pos1:pos] == b".":
-                    errmsg = "unexpected dot."
-                    break
-                else:
-                    key = float(sbins[pos1:pos].decode(encoding))
-                    state = "KEY_EXPRESSION_FINISH"
-                    pos = pos - 1
         elif state == "KEY_EXPRESSION_FINISH":
             if byte_current is None:
                 errmsg = 'unexpected end of table key expression, "]" expected.'
