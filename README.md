@@ -8,24 +8,51 @@ This is a Python package that can serialize `Python` list &amp; dictionary to `L
 ## Install
 
 Binary installers for the latest released version are available at the `Pypi`.
+
 ```
 python -m pip install --upgrade luadata
 ```
 
-## Use
+## Usage
 
-You can use `write` to output your Python data into a Lua file on path.
+### write
+
+> Serialize `python` variable to `lua` data string, and save to specific path.
+
+```python
+import luadata
+
+luadata.write(path, data, encoding="utf-8", indent="\t", prefix="return ")
 ```
-luadata.write(data, path, encoding='utf-8', form=False, prefix='return ')
+
+### read
+
+> Unserialize `lua` data string to `python` variable from file.
+
+```python
+import luadata
+
+data = luadata.read(path, encoding="utf-8")
 ```
-Or use `read` to input your Python data from a Lua file on path.
+
+### serialize
+
+> Serialize `python` variable to `lua` data string.
+
+```python
+import luadata
+
+luadata.serialize(var, encoding="utf-8", indent="\t", indent_level=0)
 ```
-data = luadata.read(path, encoding='utf-8')
-```
-If only want to serialize or unserialize string data, You can try `serialize` and `unserialize`.
-```
-luadata.serialize(data, form=False)
-luadata.unserialize(src_data)
+
+### unserialize
+
+> Unserialize `lua` data string to `python` variable.
+
+```python
+import luadata
+
+luadata.unserialize(luadata_str, encoding="utf-8")
 ```
 
 ## License
