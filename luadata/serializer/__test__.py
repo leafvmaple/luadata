@@ -94,6 +94,10 @@ class TestUnserializeMethods(unittest.TestCase):
         self.assertEqual(unserialize("0.1"), tuple([0.1]))
         self.assertEqual(unserialize("100"), tuple([100]))
         self.assertEqual(unserialize("100."), tuple([100]))
+        self.assertEqual(unserialize("-.1"), tuple([-0.1]))
+        self.assertEqual(unserialize("-0.1"), tuple([-0.1]))
+        self.assertEqual(unserialize("-100"), tuple([-100]))
+        self.assertEqual(unserialize("-100."), tuple([-100]))
 
     def test_list(self):
         with self.assertRaises(Exception):
@@ -112,7 +116,10 @@ class TestUnserializeMethods(unittest.TestCase):
         self.assertEqual(unserialize("{1 , }"), tuple([[1]]))
 
     def test_list_multiple(self):
-        self.assertEqual(unserialize('{1,0.2,"3",true}'), tuple([[1, 0.2, "3", True]]))
+        self.assertEqual(
+            unserialize('{1,0.2,"3",-4,-.5,-6.,true}'),
+            tuple([[1, 0.2, "3", -4, -0.5, -6, True]]),
+        )
 
     def test_list_indent(self):
         self.assertEqual(unserialize('{\n  1,\n  2,\n  "3",\n}'), tuple([[1, 2, "3"]]))

@@ -117,7 +117,9 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 state = "VALUE_TEXT"
                 pos1 = pos + 1
                 byte_quoting_char = byte_current
-            elif byte_current >= b"0" and byte_current <= b"9":
+            elif byte_current == b"-" or (
+                byte_current >= b"0" and byte_current <= b"9"
+            ):
                 state = "VALUE_INT"
                 pos1 = pos
             elif byte_current == b".":
@@ -214,7 +216,9 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 state = "KEY_EXPRESSION_TEXT"
                 pos1 = pos + 1
                 byte_quoting_char = byte_current
-            elif byte_current >= b"0" and byte_current <= b"9":
+            elif byte_current == b"-" or (
+                byte_current >= b"0" and byte_current <= b"9"
+            ):
                 state = "KEY_EXPRESSION_INT"
                 pos1 = pos
             elif byte_current == b".":
