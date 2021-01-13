@@ -42,8 +42,15 @@ def unserialize(s, encoding="utf-8", verbose=False):
 
     while pos <= slen:
         byte_current = None
+        byte_current_is_space = False
         if pos < slen:
             byte_current = sbins[pos : pos + 1]
+            byte_current_is_space = (
+                byte_current == b" "
+                or byte_current == b"\r"
+                or byte_current == b"\n"
+                or byte_current == b"\t"
+            )
         if verbose:
             print("[step] pos", pos, byte_current, state, key, node)
 
@@ -78,12 +85,7 @@ def unserialize(s, encoding="utf-8", verbose=False):
                     state = "VALUE_END"
                     key = None
                 node = prev_env["node"]
-            elif (
-                byte_current != b" "
-                and byte_current != b"\t"
-                and byte_current != b"\r"
-                and byte_current != b"\n"
-            ):
+            elif not byte_current_is_space:
                 key = node["lualen"] + 1
                 state = "VALUE"
                 pos = pos - 1
@@ -169,12 +171,7 @@ def unserialize(s, encoding="utf-8", verbose=False):
             elif byte_current == b"}":
                 state = "START"
                 pos = pos - 1
-            elif (
-                byte_current != b" "
-                and byte_current != b"\t"
-                and byte_current != b"\r"
-                and byte_current != b"\n"
-            ):
+            elif not byte_current_is_space:
                 errmsg = "unexpected character."
                 break
         elif state == "KEY_EXPRESSION_OPEN":
@@ -248,23 +245,13 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 break
             if byte_current == b"]":
                 state = "KEY_EXPRESSION_CLOSE"
-            elif (
-                byte_current != b" "
-                and byte_current != b"\t"
-                and byte_current != b"\r"
-                and byte_current != b"\n"
-            ):
+            elif not byte_current_is_space:
                 errmsg = 'unexpected character, "]" expected.'
                 break
         elif state == "KEY_EXPRESSION_CLOSE":
             if byte_current == b"=":
                 state = "VALUE"
-            elif (
-                byte_current != b" "
-                and byte_current != b"\t"
-                and byte_current != b"\r"
-                and byte_current != b"\n"
-            ):
+            elif not byte_current_is_space:
                 errmsg = 'unexpected character, "=" expected.'
                 break
         elif state == "KEY_SIMPLE":
@@ -278,12 +265,7 @@ def unserialize(s, encoding="utf-8", verbose=False):
                 state = "KEY_SIMPLE_END"
                 pos = pos - 1
         elif state == "KEY_SIMPLE_END":
-            if (
-                byte_current == b" "
-                or byte_current == b"\r"
-                or byte_current == b"\n"
-                or byte_current == "\t"
-            ):
+            if byte_current_is_space:
                 pass
             elif byte_current == b"=":
                 state = "VALUE"
