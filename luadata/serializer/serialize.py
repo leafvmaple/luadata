@@ -112,4 +112,12 @@ def serialize(var, encoding="utf-8", indent=None, indent_level=0):
     Returns:
         string: serialized lua formatted data string
     """
+    if isinstance(var, tuple):
+        res = []
+        for item in var:
+            res.append(__serialize(item, encoding, indent, indent_level))
+        spliter = ","
+        if indent is not None:
+            spliter = spliter + "\n" + indent * indent_level
+        return spliter.join(res)
     return __serialize(var, encoding, indent, indent_level)
