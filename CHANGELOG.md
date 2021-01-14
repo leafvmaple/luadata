@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [1.0.1] 2021-1-14
+
+- `[Feat]` Add multival for serialize.
+
 ## [1.0.0] 2021-1-13
 
 - `[Refactor]` New logic for serializer.
