@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [1.0.2] 2021-1-14
+
+- `[Fix]` Auto strip return when read lua file.
+
 ## [1.0.1] 2021-1-14
 
 - `[Feat]` Add multival for serialize.
