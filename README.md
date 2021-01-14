@@ -52,7 +52,7 @@ luadata.serialize(var, encoding="utf-8", indent="\t", indent_level=0)
 ```python
 import luadata
 
-luadata.unserialize(luadata_str, encoding="utf-8")
+luadata.unserialize(luadata_str, encoding="utf-8", multival=False)
 ```
 
 ## License

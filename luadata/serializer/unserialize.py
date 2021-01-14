@@ -1,12 +1,13 @@
 import math
 
 
-def unserialize(raw, encoding="utf-8", verbose=False):
+def unserialize(raw, encoding="utf-8", multival=False, verbose=False):
     """Unserialize stringified lua data to python data
 
     Args:
         raw (str): raw lua data string
         encoding (str, optional): string encoding. Defaults to "utf-8".
+        multival (bool, optional): returns tuple for supporting multiple lua values likes "return 1, 2". Defaults to False.
         verbose (bool, optional): show more verbose debug information. Defaults to False.
 
     Raises:
@@ -358,4 +359,6 @@ def unserialize(raw, encoding="utf-8", verbose=False):
     res = []
     for kv in root["entries"]:
         res.append(kv[1])
-    return tuple(res)
+    if multival:
+        return tuple(res)
+    return res[0]
