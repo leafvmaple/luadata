@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [1.0.4] 2021-03-17
+
+- `[Fix]` Params `indent` did not effect. 
+
 ## [1.0.3] 2021-01-15
 
 - `[Fix]` Modify CHANGELOG.
