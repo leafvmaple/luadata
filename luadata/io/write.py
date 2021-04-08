@@ -13,4 +13,4 @@ def write(path, data, encoding="utf-8", indent=None, prefix="return "):
         prefix (str, optional): prefix string. Defaults to "return ".
     """
     with codecs.open(path, "w", encoding) as file:
-        file.write(prefix + serialize(data, indent=indent))
+        file.write(prefix + serialize(data, encoding=encoding, indent=indent))
