@@ -69,8 +69,11 @@ def __serialize(var, encoding, indent, level):
             # insert key
             if nohash:  # pure list: do not need a key
                 pass
-            elif isinstance(key, str) and re.match(
+            # keywords are from https://www.lua.org/manual/5.1/manual.html
+            elif isinstance(key, str) and (re.match(
                 r"^[a-zA-Z_][a-zA-Z0-9_]*$", key
+            ) or (key in ["and", "end", "in", "repeat", "break", "false", "local", "return", "do", "for", "nil", "then",
+                          "else", "function", "not", "true", "elseif", "if", "or", "until", "while"])
             ):  # a = val
                 parts.append(key)
                 parts.append(s_tab_equ)
