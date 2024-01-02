@@ -103,6 +103,7 @@ class TestUnserializeMethods(unittest.TestCase):
         self.assertEqual(unserialize("-0.1"), -0.1)
         self.assertEqual(unserialize("-100"), -100)
         self.assertEqual(unserialize("-100."), -100)
+        self.assertEqual(unserialize("1e-06"), 1e-06)
 
     def test_tuple(self):
         self.assertEqual(unserialize("1,2,3"), 1)
