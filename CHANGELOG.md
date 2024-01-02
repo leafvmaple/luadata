@@ -1,5 +1,9 @@
 # Luadata Change Log
 
+## [1.0.6] 2024-1-3
+
+- `[Fix]` Keyword serialize.
+
 ## [1.0.5] 2021-4-8
 
 - `[Fix]` Parameters `encoding` has no effect.

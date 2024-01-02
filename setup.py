@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="luadata",
-    version="1.0.5",
+    version="1.0.6",
     keywords=["lua", "data", "luadata", "table"],
     description="Serialize and unserialize Python list & dictionary between Lua table.",
     long_description=long_description,
